@@ -21,7 +21,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       if (event.shiftKey) {
       } else {
         event.preventDefault();
@@ -29,8 +29,6 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
       }
     }
   };
-  
-  
 
   return (
     <Box
@@ -40,7 +38,6 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
       width="100%"
       boxSizing={"border-box"}
       sx={{
-        // background: "white",
         boxShadow:
           "0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12)",
         ...sx,
@@ -51,12 +48,15 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type your message"
-        sx={{ flexGrow: 1, marginRight: "8px",  background: "white", borderRadius: 2}}
+        sx={{
+          flexGrow: 1,
+          marginRight: "8px",
+          background: "white",
+          borderRadius: 2,
+        }}
         multiline={true}
         onSubmit={handleSendMessage}
-        inputProps={{
-          style: { maxHeight: 200, overflowY: "scroll", },
-        }}
+        maxRows={8}
         size="medium"
         onKeyDown={handleKeyDown}
       />

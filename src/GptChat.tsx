@@ -20,7 +20,7 @@ const GptChatWrapper = styled(Box)({
   overflow: "hidden",
   boxSizing: "border-box",
   fontFamily: "Roboto",
-  fontSize: 15,
+  fontSize: 16,
 });
 
 interface ChatWindowProps {
