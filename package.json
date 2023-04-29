@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=3001 env-cmd -f ./.local.env react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env PORT=3001 env-cmd -f ./.local.env react-scripts build",
     "test": "react-scripts start",
     "eject": "react-scripts eject"
   },
@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-syntax-highlighter": "^15.5.6"
+    "@types/react-syntax-highlighter": "^15.5.6",
+    "@types/uuid": "^9.0.1"
   }
 }

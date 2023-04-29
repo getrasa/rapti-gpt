@@ -1,15 +1,25 @@
 // MessageItem.tsx
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import CircularProfile from "./CircularProfile";
 import CodeBlock from "./CodeBlock";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import { TextField } from "@mui/material";
+import { KeyboardEvent } from "react";
+import { Message } from "../hooks/streamGptMessage";
 
 interface MessageItemProps {
-  sender: string;
-  message: string;
+  messageItem: Message
+  updateMessage: (message: string, id: string) => void;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
+const MessageItem: React.FC<MessageItemProps> = ({ messageItem, updateMessage }) => {
+  const sender = messageItem.role;
+  const message = messageItem.content;
+  const id = messageItem.id;
+  const [editing, setEditing] = useState<boolean>(false);
+  const [editValue, setEditValue] = useState<string>(message);
+
   const isUser = sender === "user";
 
   const processMessage = (message: string) => {
@@ -27,9 +37,14 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
       if (lastIndex !== codeBlockStartIndex) {
         const textBeforeCode = message.slice(lastIndex, codeBlockStartIndex);
         messageParts.push(
-          textBeforeCode
-            .split("\n")
-            .map((line, index) => <p style={{margin: 0, marginTop: 4, marginBottom: 12}} key={`${lastIndex}-${index}`}>{line}</p>)
+          textBeforeCode.split("\n").map((line, index) => (
+            <p
+              style={{ margin: 0, marginTop: 4, marginBottom: 12 }}
+              key={`${lastIndex}-${index}`}
+            >
+              {line}
+            </p>
+          ))
         );
       }
 
@@ -49,13 +64,29 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
     if (lastIndex < message.length) {
       const remainingText = message.slice(lastIndex);
       messageParts.push(
-        remainingText
-          .split("\n")
-          .map((line, index) => <p style={{margin: 0, marginTop: 4, marginBottom: 12}} key={`${lastIndex}-${index}`}>{line}</p>)
+        remainingText.split("\n").map((line, index) => (
+          <p
+            style={{ margin: 0, marginTop: 4, marginBottom: 12 }}
+            key={`${lastIndex}-${index}`}
+          >
+            {line}
+          </p>
+        ))
       );
     }
 
     return messageParts;
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+      } else {
+        event.preventDefault();
+        setEditing(false);
+        updateMessage(editValue, id);
+      }
+    }
   };
 
   return (
@@ -65,15 +96,45 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
         flexDirection: "row",
         color: "#C5C5D2",
         background: isUser ? "#272932" : null,
+        position: "relative",
       }}
-      py={3} px={2}
+      py={3}
+      px={2}
     >
       <Box px={2}>
         <CircularProfile size={42} name={sender} />
       </Box>
-      <Box maxWidth="100%" sx={{ overflowX: "auto" }} pr={2} width="100%">
-        {processMessage(message)}
-      </Box>
+      {!editing ? (
+        <Box maxWidth="100%" sx={{ overflowX: "auto" }} pr={2} width="100%">
+          {processMessage(message)}
+        </Box>
+      ) : (
+        <TextField
+          fullWidth
+          multiline
+          value={editValue}
+          inputProps={{ style: { color: "#C5C5D2" } }}
+          onChange={(e) => setEditValue(e.target.value)}
+          maxRows={8}
+          size="medium"
+          onKeyDown={handleKeyDown}
+          />
+      )}
+      {isUser && !editing && (
+        <Box
+          onClick={() => setEditing(true)}
+          sx={{
+            position: "absolute",
+            right: 12,
+            top: 12,
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <EditNoteIcon fontSize="medium" />
+        </Box>
+      )}
     </Box>
   );
 };

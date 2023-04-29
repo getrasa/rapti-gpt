@@ -8,6 +8,7 @@ import {
 } from "./modules/hooks/streamGptMessage";
 import MessageItem from "./modules/components/MessageItem";
 import GptChatHeaderComponent from "./modules/components/ChatHeader";
+import { v4 as uuidv4 } from 'uuid';
 
 const GptChatWrapper = styled(Box)({
   width: "100%",
@@ -34,7 +35,30 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
   const [model, setModel] = useState<GptEngine>(GptEngine.GPT35);
 
   const handleSendMessage = async (input: string) => {
-    const newMessage: Message = { id: "", role: "user", content: input };
+    const messageId: string = uuidv4();
+    const newMessage: Message = { id: messageId, role: "user", content: input };
+    setMessages([...messages, newMessage]);
+    setInput("");
+
+    await streamGptMessage(
+      apiKey,
+      [...messages, newMessage],
+      model,
+      setStreamBuffer,
+      (message) => {
+        setMessages([
+          ...messages,
+          newMessage,
+          { id: "", role: "assistant", content: message },
+        ]);
+        setStreamBuffer("");
+      }
+    );
+  };
+
+  const handleSendMessage2 = async (messages: Message[], input: string) => {
+    const messageId: string = uuidv4();
+    const newMessage: Message = { id: messageId, role: "user", content: input };
     setMessages([...messages, newMessage]);
     setInput("");
 
@@ -56,17 +80,23 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
 
   return (
     <GptChatWrapper>
-      <GptChatHeaderComponent model={model} setModel={setModel}></GptChatHeaderComponent>
+      <GptChatHeaderComponent model={model} setModel={setModel} resetMessages={() => setMessages([])}></GptChatHeaderComponent>
       <Box flex={1} sx={{ overflowY: "auto" }}>
         {messages.map((message, index) => (
           <MessageItem
             key={index}
-            sender={message.role}
-            message={message.content}
+            messageItem={message}
+            updateMessage={(message: string, id: string) => {
+              const messageIndex = messages.findIndex((message) => message.id === id);
+              // extract array items from 0 to messageIndex
+              const messagesBefore = messages.slice(0, messageIndex);
+              const newMessage = {role: "user", content: message, id: id};
+              handleSendMessage2([...messagesBefore], message);
+            }}
           />
         ))}
         {streamBuffer && (
-          <MessageItem key={999} sender={"Assistant"} message={streamBuffer} />
+          <MessageItem key={999} messageItem={{role: "Assistant", content: streamBuffer, id: uuidv4()}} updateMessage={()=> {}} />
         )}
       </Box>
       <Box p={2}>
@@ -104,16 +134,16 @@ export default ChatWindow;
 //   );
 // };
 
-interface MessageStreamItemProps {
-  sender: string;
-  messages: Message[];
-}
+// interface MessageStreamItemProps {
+//   sender: string;
+//   messages: Message[];
+// }
 
-const MessageStreamItem: React.FC<MessageStreamItemProps> = ({
-  sender,
-  messages,
-}) => {
-  const [streamBuffer, setStreamBuffer] = useState<string>("");
+// const MessageStreamItem: React.FC<MessageStreamItemProps> = ({
+//   sender,
+//   messages,
+// }) => {
+//   const [streamBuffer, setStreamBuffer] = useState<string>("");
 
-  return <MessageItem sender={sender} message={streamBuffer} />;
-};
+//   return <MessageItem sender={sender} message={streamBuffer} />;
+// };
