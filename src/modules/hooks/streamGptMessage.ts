@@ -34,25 +34,19 @@ export const streamGptMessage = async (
       headers,
       body: JSON.stringify(data),
     });
-
-    console.log("response", response);
-
+    
     const reader = response.body?.getReader();
     const decoder = new TextDecoder();
     if (reader) {
-      console.log("reader", reader);
       while (true) {
         const { done, value } = await reader.read();
-        console.log("done", done);
         if (done) break;
         const chunk = decoder.decode(value);
         const dataChunks = chunk.split("data: ");
         dataChunks.forEach((dataChunk) => {
-            console.log("dataChunk", dataChunk);
           const jsonChunk = extractJSON(dataChunk);
           if (jsonChunk) {
             const content = jsonChunk[0].choices[0].delta?.content || "";
-            console.log("content:", content, "|");
             buffer += content;
             setMessage(buffer);
           }
@@ -77,10 +71,8 @@ function extractJSON(str: string) {
       candidate = str.substring(firstOpen, firstClose + 1);
       try {
         var res = JSON.parse(candidate);
-        console.log("...found");
         return [res, firstOpen, firstClose + 1];
       } catch (e) {
-        console.log("...failed");
       }
       firstClose = str.substr(0, firstClose).lastIndexOf("}");
     } while (firstClose > firstOpen);

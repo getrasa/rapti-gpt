@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { Box, TextField, styled } from "@mui/material";
-import CircularProfile from "./modules/components/CircularProfile";
+import React, { useState } from "react";
+import { Box, styled } from "@mui/material";
 import PromptInput from "./modules/components/PromptInput";
 import {
   GptEngine,
@@ -14,6 +12,7 @@ import GptChatHeaderComponent from "./modules/components/ChatHeader";
 const GptChatWrapper = styled(Box)({
   width: "100%",
   background: "#343642",
+  maxWidth: "100%",
   height: "100%",
   display: "flex",
   flexDirection: "column",
@@ -21,21 +20,7 @@ const GptChatWrapper = styled(Box)({
   overflow: "hidden",
   boxSizing: "border-box",
   fontFamily: "Roboto",
-});
-
-const GptChatHeader = styled(Box)({
-  width: "100%",
-  height: 28,
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "0 16px",
-  background: "#272932",
-  boxSizing: "border-box",
-  borderBottom: "0.5px solid rgba(255, 255, 255, 0.2)",
-  color: "#C5C5D2",
-  fontSize: 13,
+  fontSize: 15,
 });
 
 interface ChatWindowProps {
@@ -50,7 +35,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
 
   const handleSendMessage = async (input: string) => {
     const newMessage: Message = { id: "", role: "user", content: input };
-    console.log("newMessage", newMessage);
     setMessages([...messages, newMessage]);
     setInput("");
 
@@ -72,7 +56,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
 
   return (
     <GptChatWrapper>
-      {/* <GptChatHeader>Model: {model}</GptChatHeader> */}
       <GptChatHeaderComponent model={model} setModel={setModel}></GptChatHeaderComponent>
       <Box flex={1} sx={{ overflowY: "auto" }}>
         {messages.map((message, index) => (

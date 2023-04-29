@@ -29,7 +29,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
         messageParts.push(
           textBeforeCode
             .split("\n")
-            .map((line, index) => <p key={`${lastIndex}-${index}`}>{line}</p>)
+            .map((line, index) => <p style={{margin: 0, marginTop: 4, marginBottom: 12}} key={`${lastIndex}-${index}`}>{line}</p>)
         );
       }
 
@@ -51,7 +51,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
       messageParts.push(
         remainingText
           .split("\n")
-          .map((line, index) => <p key={`${lastIndex}-${index}`}>{line}</p>)
+          .map((line, index) => <p style={{margin: 0, marginTop: 4, marginBottom: 12}} key={`${lastIndex}-${index}`}>{line}</p>)
       );
     }
 
@@ -66,12 +66,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
         color: "#C5C5D2",
         background: isUser ? "#272932" : null,
       }}
-      py={3}
+      py={3} px={2}
     >
       <Box px={2}>
         <CircularProfile size={42} name={sender} />
       </Box>
-      <Box maxWidth="100%" sx={{ overflowX: "auto" }} px={2} width="100%">
+      <Box maxWidth="100%" sx={{ overflowX: "auto" }} pr={2} width="100%">
         {processMessage(message)}
       </Box>
     </Box>

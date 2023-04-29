@@ -11,10 +11,10 @@ function App() {
   const [windowSize, setWindowSize] = React.useState<number | null>(null);
 
   useEffect(() => {
-    const apiKey = JSON.parse(localStorage.getItem("openAiApiKey") || "");
+    const apiKeyString = localStorage.getItem("openAiApiKey");
+    const apiKey = apiKeyString ? JSON.parse(apiKeyString) : "";
     const windowCount = localStorage.getItem("windowCount");
     const windowSize = localStorage.getItem("windowSize");
-    console.log("apikey", apiKey, "windowCount", windowCount, "windowSize", typeof(windowSize), "windowSize", parseInt(windowSize || ''));
     if (apiKey || windowCount || windowSize) {
       setOpenAIKey(apiKey);
       setWindowCount(parseInt(windowCount || "2"));
