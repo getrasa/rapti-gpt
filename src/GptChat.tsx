@@ -41,7 +41,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
     await streamGptMessage(
       apiKey,
       [...messages, newMessage],
-      GptEngine.GPT35,
+      model,
       setStreamBuffer,
       (message) => {
         setMessages([
