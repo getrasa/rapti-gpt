@@ -1,4 +1,3 @@
-// SettingsSidebar.tsx
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +10,12 @@ import Button from "@mui/material/Button";
 import KeyIcon from "@mui/icons-material/VpnKey";
 import CountIcon from "@mui/icons-material/ViewModule";
 import SizeIcon from "@mui/icons-material/AspectRatio";
-import { MenuItem } from "@mui/material";
+import {
+  MenuItem,
+} from "@mui/material";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
+import { UserProfile } from "../types/UserProfile";
+import ProfilesDialog from "./ProfilesDialog";
 
 interface SettingsSidebarProps {
   openAIKey: string;
@@ -20,6 +24,8 @@ interface SettingsSidebarProps {
   setWindowCount: (count: number | null) => void;
   windowSize: number | null;
   setWindowSize: (size: number | null) => void;
+  profileList: UserProfile[];
+  setProfileList: (profiles: UserProfile[]) => void;
 }
 
 const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
@@ -29,10 +35,12 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   setWindowCount,
   windowSize,
   setWindowSize,
+  profileList,
+  setProfileList,
 }) => {
-  const [openDialog, setOpenDialog] = useState<"key" | "count" | "size" | null>(
-    null
-  );
+  const [openDialog, setOpenDialog] = useState<
+    "key" | "count" | "size" | "profiles" | null
+  >(null);
 
   const handleClose = () => {
     setOpenDialog(null);
@@ -47,7 +55,6 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        // background: "#272932",
         background: "#18191A",
         padding: "16px",
       }}
@@ -60,6 +67,9 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
       </IconButton>
       <IconButton onClick={() => setOpenDialog("size")}>
         <SizeIcon sx={{ color: "#C5C5D2" }} />
+      </IconButton>
+      <IconButton onClick={() => setOpenDialog("profiles")}>
+        <SettingsEthernetIcon sx={{ color: "#C5C5D2" }} />
       </IconButton>
 
       <Dialog open={openDialog !== null} onClose={handleClose} fullWidth>
@@ -77,7 +87,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
                 label="OpenAI Key"
                 value={openAIKey}
                 onChange={(e) => {
-                    setOpenAIKey(e.target.value);
+                  setOpenAIKey(e.target.value);
                 }}
                 variant="outlined"
                 size="small"
@@ -123,6 +133,16 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
                 size="small"
                 fullWidth
               />
+            )}
+            {openDialog === "profiles" && (
+              <>
+                <ProfilesDialog
+                  open={openDialog === "profiles"}
+                  onClose={handleClose}
+                  profileList={profileList}
+                  setProfileList={setProfileList}
+                />
+              </>
             )}
           </Box>
         </DialogContent>

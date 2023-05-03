@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { GptEngine } from "../hooks/streamGptMessage";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import ProfileSelect from "./ProfileSelect";
+import { UserProfile } from "../types/UserProfile";
 
 const GptChatHeader = styled(Box)({
   width: "100%",
@@ -25,12 +27,18 @@ interface GptChatHeaderProps {
   model: GptEngine;
   setModel: (model: GptEngine) => void;
   resetMessages: () => void;
+  profileList: UserProfile[];
+  profile: UserProfile | null;
+  setProfile: (profile: UserProfile | null) => void;
 }
 
 const GptChatHeaderComponent: React.FC<GptChatHeaderProps> = ({
   model,
   setModel,
-  resetMessages
+  resetMessages,
+  profileList,
+  profile,
+  setProfile,
 }) => {
   const toggleModelChange = (model: GptEngine) => {
     const newModel =
@@ -40,6 +48,11 @@ const GptChatHeaderComponent: React.FC<GptChatHeaderProps> = ({
 
   return (
     <GptChatHeader>
+      <ProfileSelect
+        profileList={profileList}
+        selectedProfile={profile}
+        onSelect={(selectedProfile) => setProfile(selectedProfile)}
+      />
       <Box
         onClick={() => toggleModelChange(model)}
         sx={{ cursor: "pointer", userSelect: "none" }}

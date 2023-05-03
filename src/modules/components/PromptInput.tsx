@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box, { BoxProps } from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
-import { IconButton } from "@mui/material";
 
 interface PromptInputProps extends BoxProps {
   onSendMessage: (message: string) => void;

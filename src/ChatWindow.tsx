@@ -8,7 +8,9 @@ import {
 } from "./modules/hooks/streamGptMessage";
 import MessageItem from "./modules/components/MessageItem";
 import GptChatHeaderComponent from "./modules/components/ChatHeader";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import { UserProfile } from "./modules/types/UserProfile";
+// import { profileList } from "./modules/profileList";
 
 const GptChatWrapper = styled(Box)({
   width: "100%",
@@ -26,45 +28,38 @@ const GptChatWrapper = styled(Box)({
 
 interface ChatWindowProps {
   apiKey: string;
+  profileList: UserProfile[];
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
+
+
+const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, profileList }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [streamBuffer, setStreamBuffer] = useState<string>("");
   const [model, setModel] = useState<GptEngine>(GptEngine.GPT35);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
 
-  const handleSendMessage = async (input: string) => {
-    const messageId: string = uuidv4();
-    const newMessage: Message = { id: messageId, role: "user", content: input };
-    setMessages([...messages, newMessage]);
-    setInput("");
-
-    await streamGptMessage(
-      apiKey,
-      [...messages, newMessage],
-      model,
-      setStreamBuffer,
-      (message) => {
-        setMessages([
-          ...messages,
-          newMessage,
-          { id: "", role: "assistant", content: message },
-        ]);
-        setStreamBuffer("");
-      }
-    );
+  const getSystemMessage = (profile: UserProfile): Message => {
+    return {
+      id: uuidv4(),
+      role: "system",
+      content: profile.content,
+    };
   };
 
-  const handleSendMessage2 = async (messages: Message[], input: string) => {
+  const systemMessage = profile ? getSystemMessage(profile) : null;
+
+  const handleSendMessage = async (messages: Message[], input: string) => {
     const messageId: string = uuidv4();
     const newMessage: Message = { id: messageId, role: "user", content: input };
+    const baseMessages = systemMessage ? [systemMessage, ...messages] : messages;
     setMessages([...messages, newMessage]);
     setInput("");
 
     await streamGptMessage(
       apiKey,
-      [...messages, newMessage],
+      [...baseMessages, newMessage],
       model,
       setStreamBuffer,
       (message) => {
@@ -80,30 +75,47 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey }) => {
 
   return (
     <GptChatWrapper>
-      <GptChatHeaderComponent model={model} setModel={setModel} resetMessages={() => setMessages([])}></GptChatHeaderComponent>
+      <GptChatHeaderComponent
+        model={model}
+        setModel={setModel}
+        resetMessages={() => setMessages([])}
+        profile={profile}
+        profileList={profileList}
+        setProfile={setProfile}
+      ></GptChatHeaderComponent>
       <Box flex={1} sx={{ overflowY: "auto" }}>
         {messages.map((message, index) => (
           <MessageItem
             key={index}
             messageItem={message}
             updateMessage={(message: string, id: string) => {
-              const messageIndex = messages.findIndex((message) => message.id === id);
+              const messageIndex = messages.findIndex(
+                (message) => message.id === id
+              );
               // extract array items from 0 to messageIndex
               const messagesBefore = messages.slice(0, messageIndex);
-              const newMessage = {role: "user", content: message, id: id};
-              handleSendMessage2([...messagesBefore], message);
+              // const newMessage = { role: "user", content: message, id: id };
+              handleSendMessage([...messagesBefore], message);
             }}
           />
         ))}
         {streamBuffer && (
-          <MessageItem key={999} messageItem={{role: "Assistant", content: streamBuffer, id: uuidv4()}} updateMessage={()=> {}} />
+          <MessageItem
+            key={999}
+            messageItem={{
+              role: "Assistant",
+              content: streamBuffer,
+              id: uuidv4(),
+            }}
+            updateMessage={() => {}}
+          />
         )}
       </Box>
       <Box p={2}>
         <PromptInput
           sx={{ p: 0, borderRadius: 2 }}
           boxSizing={"border-box"}
-          onSendMessage={handleSendMessage}
+          onSendMessage={(input) => handleSendMessage(messages, input)}
         />
       </Box>
     </GptChatWrapper>

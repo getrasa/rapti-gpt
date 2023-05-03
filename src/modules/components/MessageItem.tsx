@@ -9,11 +9,14 @@ import { KeyboardEvent } from "react";
 import { Message } from "../hooks/streamGptMessage";
 
 interface MessageItemProps {
-  messageItem: Message
+  messageItem: Message;
   updateMessage: (message: string, id: string) => void;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ messageItem, updateMessage }) => {
+const MessageItem: React.FC<MessageItemProps> = ({
+  messageItem,
+  updateMessage,
+}) => {
   const sender = messageItem.role;
   const message = messageItem.content;
   const id = messageItem.id;
@@ -118,7 +121,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ messageItem, updateMessage })
           maxRows={8}
           size="medium"
           onKeyDown={handleKeyDown}
-          />
+        />
       )}
       {isUser && !editing && (
         <Box
