@@ -10,9 +10,7 @@ import Button from "@mui/material/Button";
 import KeyIcon from "@mui/icons-material/VpnKey";
 import CountIcon from "@mui/icons-material/ViewModule";
 import SizeIcon from "@mui/icons-material/AspectRatio";
-import {
-  MenuItem,
-} from "@mui/material";
+import { MenuItem } from "@mui/material";
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { UserProfile } from "../types/UserProfile";
 import ProfilesDialog from "./ProfilesDialog";
@@ -20,6 +18,8 @@ import ProfilesDialog from "./ProfilesDialog";
 interface SettingsSidebarProps {
   openAIKey: string;
   setOpenAIKey: (key: string) => void;
+  deepgramKey: string;
+  setDeepgramKey: (key: string) => void;
   windowCount: number | null;
   setWindowCount: (count: number | null) => void;
   windowSize: number | null;
@@ -31,6 +31,8 @@ interface SettingsSidebarProps {
 const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   openAIKey,
   setOpenAIKey,
+  deepgramKey,
+  setDeepgramKey,
   windowCount,
   setWindowCount,
   windowSize,
@@ -83,16 +85,29 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
         <DialogContent>
           <Box py={1}>
             {openDialog === "key" && (
-              <TextField
-                label="OpenAI Key"
-                value={openAIKey}
-                onChange={(e) => {
-                  setOpenAIKey(e.target.value);
-                }}
-                variant="outlined"
-                size="small"
-                fullWidth
-              />
+              <>
+                <TextField
+                  label="OpenAI Key"
+                  value={openAIKey}
+                  onChange={(e) => {
+                    setOpenAIKey(e.target.value);
+                  }}
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                />
+                <TextField
+                  label="Deepgram Key (Speech-to-Text)"
+                  value={deepgramKey}
+                  onChange={(e) => {
+                    setDeepgramKey(e.target.value);
+                  }}
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={{mt: 2}}
+                />
+              </>
             )}
             {openDialog === "count" && (
               <TextField

@@ -27,13 +27,14 @@ const GptChatWrapper = styled(Box)({
 });
 
 interface ChatWindowProps {
-  apiKey: string;
+  openAIKey: string;
+  deepgramKey: string;
   profileList: UserProfile[];
 }
 
 
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, profileList }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgramKey }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [streamBuffer, setStreamBuffer] = useState<string>("");
@@ -58,7 +59,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, profileList }) => {
     setInput("");
 
     await streamGptMessage(
-      apiKey,
+      openAIKey,
       [...baseMessages, newMessage],
       model,
       setStreamBuffer,
@@ -115,6 +116,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, profileList }) => {
         <PromptInput
           sx={{ p: 0, borderRadius: 2 }}
           boxSizing={"border-box"}
+          deepgramKey={deepgramKey}
           onSendMessage={(input) => handleSendMessage(messages, input)}
         />
       </Box>

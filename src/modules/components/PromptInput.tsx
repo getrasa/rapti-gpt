@@ -9,10 +9,11 @@ import AudioRecorder from "./AudioRecorder";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 
 interface PromptInputProps extends BoxProps {
+  deepgramKey: string;
   onSendMessage: (message: string) => void;
 }
 
-const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
+const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx, deepgramKey }) => {
   const [input, setInput] = useState("");
 
   const handleSendMessage = () => {
@@ -65,6 +66,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx }) => {
           onKeyDown={handleKeyDown}
         />
         <AudioRecorder
+        deepgramKey={deepgramKey}
           sx={{
             position: "absolute",
             top: "50%",

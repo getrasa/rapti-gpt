@@ -8,18 +8,26 @@ import { UserProfile } from "./modules/types/UserProfile";
 
 function App() {
   const [openAIKey, setOpenAIKey] = React.useState("");
+  const [deepgramKey, setDeepgramKey] = React.useState("");
   const [windowCount, setWindowCount] = React.useState<number | null>(null);
   const [windowSize, setWindowSize] = React.useState<number | null>(null);
-  const [profileList, setProfileList] = React.useState<UserProfile[] | null>(null);
+  const [profileList, setProfileList] = React.useState<UserProfile[] | null>(
+    null
+  );
 
   useEffect(() => {
     const apiKeyString = localStorage.getItem("openAiApiKey");
-    const apiKey = apiKeyString ? JSON.parse(apiKeyString) : "";
+    const openAIKey = apiKeyString ? JSON.parse(apiKeyString) : "";
+    const deepgramKeyString = localStorage.getItem("deepgramKey");
+    const deepgramKey = deepgramKeyString ? JSON.parse(deepgramKeyString) : "";
     const windowCount = localStorage.getItem("windowCount") || "3";
     const windowSize = localStorage.getItem("windowSize") || "700";
     const profileListString = localStorage.getItem("profileList");
-    if (apiKey) {
-      setOpenAIKey(apiKey);
+    if (openAIKey) {
+      setOpenAIKey(openAIKey);
+    }
+    if (deepgramKey) {
+      setDeepgramKey(deepgramKey);
     }
     if (windowCount) {
       setWindowCount(parseInt(windowCount));
@@ -39,14 +47,20 @@ function App() {
   }, [openAIKey]);
 
   useEffect(() => {
+    if (deepgramKey) {
+      localStorage.setItem("deepgramKey", JSON.stringify(deepgramKey));
+    }
+  }, [deepgramKey]);
+
+  useEffect(() => {
     if (windowCount) {
       localStorage.setItem("windowCount", JSON.stringify(windowCount));
     }
   }, [windowCount]);
 
   useEffect(() => {
-    if (windowSize && !isNaN(windowSize)){
-    localStorage.setItem("windowSize", JSON.stringify(windowSize));
+    if (windowSize && !isNaN(windowSize)) {
+      localStorage.setItem("windowSize", JSON.stringify(windowSize));
     }
   }, [windowSize]);
 
@@ -61,6 +75,8 @@ function App() {
       <SettingsSidebar
         openAIKey={openAIKey}
         setOpenAIKey={setOpenAIKey}
+        deepgramKey={deepgramKey}
+        setDeepgramKey={setDeepgramKey}
         windowCount={windowCount}
         setWindowCount={setWindowCount}
         windowSize={windowSize}
@@ -77,7 +93,11 @@ function App() {
       >
         {Array.from(Array(windowCount || 0).keys()).map((index) => (
           <Box pr={1} sx={windowSize ? { minWidth: windowSize } : { flex: 1 }}>
-            <ChatWindow apiKey={openAIKey} profileList={profileList || []} />
+            <ChatWindow
+              openAIKey={openAIKey}
+              deepgramKey={deepgramKey}
+              profileList={profileList || []}
+            />
           </Box>
         ))}
       </Box>
