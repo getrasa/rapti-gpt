@@ -15,8 +15,8 @@ function App() {
   useEffect(() => {
     const apiKeyString = localStorage.getItem("openAiApiKey");
     const apiKey = apiKeyString ? JSON.parse(apiKeyString) : "";
-    const windowCount = localStorage.getItem("windowCount");
-    const windowSize = localStorage.getItem("windowSize");
+    const windowCount = localStorage.getItem("windowCount") || "3";
+    const windowSize = localStorage.getItem("windowSize") || "700";
     const profileListString = localStorage.getItem("profileList");
     if (apiKey) {
       setOpenAIKey(apiKey);
