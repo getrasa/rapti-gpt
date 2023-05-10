@@ -1,9 +1,9 @@
-import { IconButton, SxProps, Tooltip } from "@mui/material";
-import React, { useEffect } from "react";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import { useAudioRecorder } from "react-audio-voice-recorder";
+import React, { useEffect } from "react";
 import { getDeepgramTranscription } from "../hooks/deepgramTranscription";
+import { IconButton, SxProps, Tooltip } from "@mui/material";
+import { useAudioRecorder } from "react-audio-voice-recorder";
 
 interface AudioRecorderProps {
   deepgramKey: string;
@@ -47,7 +47,6 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
       onProcessed(
         (response.data as any).results.channels[0].alternatives[0].transcript
       );
-      console.log(response);
     };
     processRecording();
   }, [recordingBlob]);

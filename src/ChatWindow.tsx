@@ -1,16 +1,20 @@
+import FileDisplayer from "./modules/components/FileDisplayer";
+import GptChatHeaderComponent from "./modules/components/ChatHeader";
+import MessageItem from "./modules/components/MessageItem";
+import PromptInput from "./modules/components/PromptInput";
 import React, { useState } from "react";
 import { Box, styled } from "@mui/material";
-import PromptInput from "./modules/components/PromptInput";
+import { minimiazeAttachedFiles } from "./modules/hooks/processAttachedFiles";
+import { UserProfile } from "./modules/types/UserProfile";
+import { v4 as uuidv4 } from "uuid";
 import {
   GptEngine,
   Message,
   streamGptMessage,
 } from "./modules/hooks/streamGptMessage";
-import MessageItem from "./modules/components/MessageItem";
-import GptChatHeaderComponent from "./modules/components/ChatHeader";
-import { v4 as uuidv4 } from "uuid";
-import { UserProfile } from "./modules/types/UserProfile";
-// import { profileList } from "./modules/profileList";
+import FileUploadButton, {
+  InlineFile,
+} from "./modules/components/FileAttacher";
 
 const GptChatWrapper = styled(Box)({
   width: "100%",
@@ -32,11 +36,13 @@ interface ChatWindowProps {
   profileList: UserProfile[];
 }
 
-
-
-const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgramKey }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({
+  openAIKey,
+  profileList,
+  deepgramKey,
+}) => {
+  const [attachedFiles, setAttachedFiles] = useState<InlineFile[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState<string>("");
   const [streamBuffer, setStreamBuffer] = useState<string>("");
   const [model, setModel] = useState<GptEngine>(GptEngine.GPT35);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -53,10 +59,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgra
 
   const handleSendMessage = async (messages: Message[], input: string) => {
     const messageId: string = uuidv4();
-    const newMessage: Message = { id: messageId, role: "user", content: input };
-    const baseMessages = systemMessage ? [systemMessage, ...messages] : messages;
+    const attachments = minimiazeAttachedFiles(attachedFiles);
+    const newMessage: Message = {
+      id: messageId,
+      role: "user",
+      content: input + attachments,
+    };
+    const baseMessages = systemMessage
+      ? [systemMessage, ...messages]
+      : messages;
     setMessages([...messages, newMessage]);
-    setInput("");
+    setAttachedFiles([]);
 
     await streamGptMessage(
       openAIKey,
@@ -93,9 +106,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgra
               const messageIndex = messages.findIndex(
                 (message) => message.id === id
               );
-              // extract array items from 0 to messageIndex
               const messagesBefore = messages.slice(0, messageIndex);
-              // const newMessage = { role: "user", content: message, id: id };
               handleSendMessage([...messagesBefore], message);
             }}
           />
@@ -113,6 +124,16 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgra
         )}
       </Box>
       <Box p={2}>
+        <Box display="flex" flexDirection="row" pb={1}>
+          <FileUploadButton
+            onFilesContent={(fileData) => setAttachedFiles(fileData)}
+          />
+          <FileDisplayer
+            sx={{ pl: 1 }}
+            files={attachedFiles}
+            setAttachedFiles={(files) => setAttachedFiles(files)}
+          />
+        </Box>
         <PromptInput
           sx={{ p: 0, borderRadius: 2 }}
           boxSizing={"border-box"}
@@ -125,39 +146,3 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ openAIKey, profileList, deepgra
 };
 
 export default ChatWindow;
-
-// interface MessageItemProps {
-//   sender: string;
-//   message: string;
-// }
-
-// const MessageItem: React.FC<MessageItemProps> = ({ sender, message }) => {
-//   const isUser = sender === "user";
-//   return (
-//     <Box sx={{ display: "flex", flexDirection: "row", color: "white", background: isUser ? "#272932" : null}} py={3}>
-//       <Box px={2}>
-//         <CircularProfile size={42} name={sender} />
-//       </Box>
-//       <Box width={"100%"}>
-//         {message.split("\n").map((line, index) => (
-//           <p key={index}>{line}</p>
-//           // line
-//         ))}
-//       </Box>
-//     </Box>
-//   );
-// };
-
-// interface MessageStreamItemProps {
-//   sender: string;
-//   messages: Message[];
-// }
-
-// const MessageStreamItem: React.FC<MessageStreamItemProps> = ({
-//   sender,
-//   messages,
-// }) => {
-//   const [streamBuffer, setStreamBuffer] = useState<string>("");
-
-//   return <MessageItem sender={sender} message={streamBuffer} />;
-// };

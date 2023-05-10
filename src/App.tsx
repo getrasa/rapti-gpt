@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import ChatWindow from "./ChatWindow";
-import { Box } from "@mui/material";
+import React, { useEffect } from "react";
 import SettingsSidebar from "./modules/components/SettingsSidebar";
+import { Box } from "@mui/material";
 import { UserProfile } from "./modules/types/UserProfile";
+import "./App.css";
 
 function App() {
   const [openAIKey, setOpenAIKey] = React.useState("");
