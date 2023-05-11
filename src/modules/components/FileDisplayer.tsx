@@ -27,8 +27,8 @@ const FileDisplayer: React.FC<FileDisplayerProps> = ({
       justifyContent="space-evenly"
       flexWrap="wrap"
     >
-      {files.map((file) => (
-        <FileTile file={file} onDelete={(id: string) => deleteItemById(id)} />
+      {files.map((file, index) => (
+        <FileTile key={index} file={file} onDelete={(id: string) => deleteItemById(id)} />
       ))}
     </Box>
   );

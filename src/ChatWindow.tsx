@@ -87,6 +87,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     );
   };
 
+  const handleAttachFiles = (files: InlineFile[]) => {
+    const newFiles = files.filter((x) =>
+      !attachedFiles.some((y) => y.name === x.name)
+    );
+    const newAttachedFiles = [...attachedFiles, ...newFiles];
+    setAttachedFiles(newAttachedFiles);
+  };
+
   return (
     <GptChatWrapper>
       <GptChatHeaderComponent
@@ -125,9 +133,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
       </Box>
       <Box p={2}>
         <Box display="flex" flexDirection="row" pb={1}>
-          <FileUploadButton
-            onFilesContent={(fileData) => setAttachedFiles(fileData)}
-          />
+          <FileUploadButton onFilesContent={handleAttachFiles} />
           <FileDisplayer
             sx={{ pl: 1 }}
             files={attachedFiles}
