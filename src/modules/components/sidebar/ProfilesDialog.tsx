@@ -11,7 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import React, { useState } from "react";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";

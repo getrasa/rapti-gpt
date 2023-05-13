@@ -1,4 +1,4 @@
-import { InlineFile } from "../components/FileAttacher";
+import { InlineFile } from "../components/chat_inputs/FileAttacher";
 
 export const removeWhiteSpace = (inputString: string): string => {
   return inputString.replace(/\s+/g, "");

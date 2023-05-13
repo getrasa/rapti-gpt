@@ -6,7 +6,7 @@ import CodeBlock from "./CodeBlock";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { TextField } from "@mui/material";
 import { KeyboardEvent } from "react";
-import { Message } from "../hooks/streamGptMessage";
+import { Message } from "../../hooks/streamGptMessage";
 
 interface MessageItemProps {
   messageItem: Message;

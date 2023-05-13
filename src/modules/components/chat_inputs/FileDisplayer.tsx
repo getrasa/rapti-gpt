@@ -5,12 +5,14 @@ import { InlineFile } from "./FileAttacher";
 
 interface FileDisplayerProps {
   files: InlineFile[];
+  onFileClick?: (file: InlineFile) => void;
   setAttachedFiles: (files: InlineFile[]) => void;
   sx: SxProps | undefined;
 }
 
 const FileDisplayer: React.FC<FileDisplayerProps> = ({
   files,
+  onFileClick,
   setAttachedFiles,
   sx,
 }) => {
@@ -28,7 +30,12 @@ const FileDisplayer: React.FC<FileDisplayerProps> = ({
       flexWrap="wrap"
     >
       {files.map((file, index) => (
-        <FileTile key={index} file={file} onDelete={(id: string) => deleteItemById(id)} />
+        <FileTile
+          key={index}
+          file={file}
+          onClick={onFileClick}
+          onDelete={(id: string) => deleteItemById(id)}
+        />
       ))}
     </Box>
   );

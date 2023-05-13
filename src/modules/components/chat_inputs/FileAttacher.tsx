@@ -49,7 +49,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       <input
         type="file"
         multiple
-        // accept=".txt"
+        // accept="text/plain"
         hidden
         ref={fileInputRef}
         onChange={handleFilesSelected}

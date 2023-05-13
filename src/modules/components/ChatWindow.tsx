@@ -1,20 +1,20 @@
-import FileDisplayer from "./modules/components/FileDisplayer";
-import GptChatHeaderComponent from "./modules/components/ChatHeader";
-import MessageItem from "./modules/components/MessageItem";
-import PromptInput from "./modules/components/PromptInput";
+import FileDisplayer from "./chat_inputs/FileDisplayer";
+import GptChatHeaderComponent from "./chat_header/ChatHeader";
+import MessageItem from "./chat_content/MessageItem";
+import PromptInput from "./chat_inputs/PromptInput";
 import React, { useState } from "react";
 import { Box, styled } from "@mui/material";
-import { minimiazeAttachedFiles } from "./modules/hooks/processAttachedFiles";
-import { UserProfile } from "./modules/types/UserProfile";
+import { minimiazeAttachedFiles } from "../hooks/processAttachedFiles";
+import { UserProfile } from "../types/UserProfile";
 import { v4 as uuidv4 } from "uuid";
 import {
   GptEngine,
   Message,
   streamGptMessage,
-} from "./modules/hooks/streamGptMessage";
+} from "../hooks/streamGptMessage";
 import FileUploadButton, {
   InlineFile,
-} from "./modules/components/FileAttacher";
+} from "./chat_inputs/FileAttacher";
 
 const GptChatWrapper = styled(Box)({
   width: "100%",
@@ -137,6 +137,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           <FileDisplayer
             sx={{ pl: 1 }}
             files={attachedFiles}
+            onFileClick={(file) => null}
             setAttachedFiles={(files) => setAttachedFiles(files)}
           />
         </Box>

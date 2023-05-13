@@ -1,6 +1,6 @@
-import ChatWindow from "./ChatWindow";
+import ChatWindow from "./modules/components/ChatWindow";
 import React, { useEffect } from "react";
-import SettingsSidebar from "./modules/components/SettingsSidebar";
+import SettingsSidebar from "./modules/components/sidebar/SettingsSidebar";
 import { Box } from "@mui/material";
 import { UserProfile } from "./modules/types/UserProfile";
 import "./App.css";

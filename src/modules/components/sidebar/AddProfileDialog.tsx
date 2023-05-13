@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 
 interface AddProfileDialogProps {
   open: boolean;

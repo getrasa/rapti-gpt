@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { GptEngine } from "../hooks/streamGptMessage";
+import { GptEngine } from "../../hooks/streamGptMessage";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import ProfileSelect from "./ProfileSelect";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 
 const GptChatHeader = styled(Box)({
   width: "100%",

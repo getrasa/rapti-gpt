@@ -5,12 +5,14 @@ import { InlineFile } from "./FileAttacher";
 
 interface FileTileProps {
   file: InlineFile;
+  onClick?: (file: InlineFile) => void;
   onDelete: (id: string) => void;
   boxProps?: BoxProps;
 }
 
 const FileTile: FunctionComponent<FileTileProps> = ({
   file,
+  onClick,
   onDelete,
   boxProps = {},
 }) => {
@@ -26,6 +28,7 @@ const FileTile: FunctionComponent<FileTileProps> = ({
       boxShadow={1}
       position="relative"
       sx={{ cursor: "pointer", boxShadow: 1, border: "2px solid #18191A" }}
+      onClick={() => onClick?.(file)}
       {...boxProps}
     >
       <Typography color="#C5C5D2" variant="body1">

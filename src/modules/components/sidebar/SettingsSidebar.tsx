@@ -12,7 +12,7 @@ import CountIcon from "@mui/icons-material/ViewModule";
 import SizeIcon from "@mui/icons-material/AspectRatio";
 import { MenuItem } from "@mui/material";
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 import ProfilesDialog from "./ProfilesDialog";
 
 interface SettingsSidebarProps {
