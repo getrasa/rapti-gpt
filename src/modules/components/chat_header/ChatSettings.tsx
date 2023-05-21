@@ -71,9 +71,9 @@ const PopperWithArrow: React.FC<
           boxShadow: 4,
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} minWidth={300}>
           <Grid item xs={6} display="flex" alignItems="center">
-            <Typography variant="body1">Language</Typography>
+            <Typography variant="body1">T2S Language</Typography>
           </Grid>
           <Grid item xs={6}>
             <LanguageSelect />
