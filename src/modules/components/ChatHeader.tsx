@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { GptEngine } from "../../hooks/streamGptMessage";
+import ChatSettings from "./chat_header/ChatSettings";
+import ProfileSelect from "./chat_header/ProfileSelect";
+import React, { useContext, useState } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import ProfileSelect from "./ProfileSelect";
-import { UserProfile } from "../../types/UserProfile";
+import { Box } from "@mui/material";
+import { ChatStateContext } from "./ChatStateProvider";
+import { GptEngine } from "../services/streamGptMessage";
+import { styled } from "@mui/material/styles";
+import { UserProfile } from "../types/UserProfile";
 
 const GptChatHeader = styled(Box)({
   width: "100%",
@@ -23,28 +25,17 @@ const GptChatHeader = styled(Box)({
   position: "relative",
 });
 
-interface GptChatHeaderProps {
-  model: GptEngine;
-  setModel: (model: GptEngine) => void;
-  resetMessages: () => void;
-  profileList: UserProfile[];
-  profile: UserProfile | null;
-  setProfile: (profile: UserProfile | null) => void;
-}
-
-const GptChatHeaderComponent: React.FC<GptChatHeaderProps> = ({
-  model,
-  setModel,
-  resetMessages,
-  profileList,
-  profile,
-  setProfile,
-}) => {
+const ChatHeader: React.FC = ({}) => {
   const toggleModelChange = (model: GptEngine) => {
     const newModel =
       model === GptEngine.GPT35 ? GptEngine.GPT4 : GptEngine.GPT35;
     setModel(newModel);
   };
+
+  const context = useContext(ChatStateContext);
+
+  const { model, setModel, setMessages, profileList, profile, setProfile } =
+    context!;
 
   return (
     <GptChatHeader>
@@ -60,7 +51,6 @@ const GptChatHeaderComponent: React.FC<GptChatHeaderProps> = ({
         Model: {model}
       </Box>
       <Box
-      onClick={() => resetMessages()}
         sx={{
           position: "absolute",
           right: 8,
@@ -70,9 +60,12 @@ const GptChatHeaderComponent: React.FC<GptChatHeaderProps> = ({
           alignItems: "center",
         }}
       >
-        <RestartAltIcon fontSize="small" />
+        <Box onClick={() => setMessages([])}>
+          <RestartAltIcon fontSize="small" />
+        </Box>
+        <ChatSettings />
       </Box>
     </GptChatHeader>
   );
 };
-export default GptChatHeaderComponent;
+export default ChatHeader;

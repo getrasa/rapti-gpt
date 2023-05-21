@@ -12,7 +12,9 @@ export const minimiazeAttachedFiles = (files: InlineFile[]): string => {
   return files.reduce((acc, file) => {
     return (
       acc +
-      ` ${"\n" + file.name + "\n```" + removeExtraWhitespace(file.content) + "```"}`
+      ` ${
+        "\n" + file.name + "\n```" + removeExtraWhitespace(file.content) + "```"
+      }`
     );
   }, "");
 };

@@ -19,7 +19,10 @@ export async function getDeepgramTranscription(
   };
 
   return await axios.post<DeepgramResponse>(
-    "https://api.deepgram.com/v1/listen?model=nova&punctuate=true",
+    // "https://api.deepgram.com/v1/listen?model=nova&punctuate=true",
+    // "https://api.deepgram.com/v1/listen?model=whisper-large&detect_language=true",
+    // "https://api.deepgram.com/v1/listen?model=whisper-large&detect_language=true&punctuate=true&diarize=true",
+    "https://api.deepgram.com/v1/listen?model=whisper-large&detect_language=true&punctuate=true",
     data,
     { headers }
   );
