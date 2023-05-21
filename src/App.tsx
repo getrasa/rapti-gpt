@@ -69,6 +69,11 @@ function App() {
     }
   }, [JSON.stringify(profileList)]);
 
+  const profileListWithEmpty = [
+    { title: "No Profile", content: "" },
+    ...(profileList || []),
+  ];
+
   return (
     <Box display="flex" flexDirection="row" sx={{ background: "#C5C5D2" }}>
       <SettingsSidebar
@@ -80,7 +85,7 @@ function App() {
         setWindowCount={setWindowCount}
         windowSize={windowSize}
         setWindowSize={setWindowSize}
-        profileList={profileList || []}
+        profileList={profileListWithEmpty}
         setProfileList={setProfileList}
       />
       <Box
@@ -95,7 +100,7 @@ function App() {
             <ChatWindow
               openAIKey={openAIKey}
               deepgramKey={deepgramKey}
-              profileList={profileList || []}
+              profileList={profileListWithEmpty}
             />
           </Box>
         ))}

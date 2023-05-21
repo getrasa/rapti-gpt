@@ -1,24 +1,28 @@
-// PromptInput.tsx
-import React, { KeyboardEvent, useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box, { BoxProps } from "@mui/material/Box";
-import SendIcon from "@mui/icons-material/Send";
-import { IconButton } from "@mui/material";
 import AudioRecorder from "./AudioRecorder";
-import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
+import Box, { BoxProps } from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import React, { KeyboardEvent, useContext } from "react";
+import SendIcon from "@mui/icons-material/Send";
+import TextField from "@mui/material/TextField";
+import { ChatStateContext } from "../ChatStateProvider";
 
 interface PromptInputProps extends BoxProps {
-  deepgramKey: string;
-  onSendMessage: (message: string) => void;
+  value: string;
+  setInput: (input: string) => void;
 }
 
-const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx, deepgramKey }) => {
-  const [input, setInput] = useState("");
+const PromptInput: React.FC<PromptInputProps> = ({ value, setInput, sx }) => {
+  const context = useContext(ChatStateContext);
+  const {
+    attachedFiles,
+    deepgramKey,
+    messages,
+    handleSendMessage: sendMessage,
+  } = context!;
 
   const handleSendMessage = () => {
-    if (input.trim()) {
-      onSendMessage(input);
+    if (value.trim()) {
+      sendMessage(messages, value);
       setInput("");
     }
   };
@@ -49,7 +53,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx, deepgramKe
       <Box position="relative" display="flex" alignItems="center" width="100%">
         <TextField
           type="text"
-          value={input}
+          value={value}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message"
           sx={{
@@ -66,7 +70,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx, deepgramKe
           onKeyDown={handleKeyDown}
         />
         <AudioRecorder
-        deepgramKey={deepgramKey}
+          deepgramKey={deepgramKey}
           sx={{
             position: "absolute",
             top: "50%",
@@ -75,7 +79,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ onSendMessage, sx, deepgramKe
           }}
           onRecorded={() => console.log("recorded")}
           onProcessed={(transcript) => {
-            setInput(input + transcript);
+            setInput(value + transcript);
           }}
         />
       </Box>

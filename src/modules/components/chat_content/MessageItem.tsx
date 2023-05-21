@@ -1,12 +1,13 @@
-// MessageItem.tsx
-import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import CircularProfile from "./CircularProfile";
 import CodeBlock from "./CodeBlock";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { TextField } from "@mui/material";
+import React, { useContext, useState } from "react";
+import TextToSpeech from "./TextToSpeech";
+import { ChatStateContext } from "../ChatStateProvider";
 import { KeyboardEvent } from "react";
-import { Message } from "../../hooks/streamGptMessage";
+import { Message } from "../../services/streamGptMessage";
+import { TextField } from "@mui/material";
 
 interface MessageItemProps {
   messageItem: Message;
@@ -17,6 +18,8 @@ const MessageItem: React.FC<MessageItemProps> = ({
   messageItem,
   updateMessage,
 }) => {
+  const context = useContext(ChatStateContext);
+  const { mainLanguage } = context!;
   const sender = messageItem.role;
   const message = messageItem.content;
   const id = messageItem.id;
@@ -136,6 +139,20 @@ const MessageItem: React.FC<MessageItemProps> = ({
           }}
         >
           <EditNoteIcon fontSize="medium" />
+        </Box>
+      )}
+      {!isUser && !editing && (
+        <Box
+          sx={{
+            position: "absolute",
+            right: 12,
+            top: 12,
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <TextToSpeech text={message} language={mainLanguage} />
         </Box>
       )}
     </Box>

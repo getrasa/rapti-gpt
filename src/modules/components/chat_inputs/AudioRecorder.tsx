@@ -1,7 +1,8 @@
+import CircularProgress from "@mui/material/CircularProgress";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import React, { useEffect } from "react";
-import { getDeepgramTranscription } from "../../hooks/deepgramTranscription";
+import React, { useEffect, useState } from "react";
+import { getDeepgramTranscription } from "../../services/deepgramTranscription";
 import { IconButton, SxProps, Tooltip } from "@mui/material";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 
@@ -26,6 +27,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     recordingTime,
   } = useAudioRecorder();
 
+  const [processing, setProcessing] = useState(false);
+
   const toggleRecording = async () => {
     if (!isRecording) {
       startRecording();
@@ -40,6 +43,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     onRecorded(recordingBlob);
 
     const processRecording = async () => {
+      setProcessing(true);
       const response = await getDeepgramTranscription(
         deepgramKey,
         recordingBlob
@@ -47,13 +51,34 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
       onProcessed(
         (response.data as any).results.channels[0].alternatives[0].transcript
       );
+      setProcessing(false);
     };
     processRecording();
   }, [recordingBlob]);
+
+  // TODO: Prevent the shortcut from activating recording on all windows
+  // useEffect(() => {
+  //   const onKeyDown = (event: KeyboardEvent) => {
+  //     if (event.ctrlKey && event.key === "r") {
+  //       event.preventDefault();
+  //       toggleRecording();
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", onKeyDown);
+  //   return () => window.removeEventListener("keydown", onKeyDown);
+  // }, []);
+
   return (
     <Tooltip open={isRecording} title={`Recording: ${recordingTime}`} arrow>
-      <IconButton sx={sx} onClick={toggleRecording}>
-        {isRecording ? <MicOffIcon /> : <MicIcon />}
+      <IconButton sx={sx} onClick={toggleRecording} disabled={processing}>
+        {processing ? (
+          <CircularProgress size={18} />
+        ) : isRecording ? (
+          <MicOffIcon />
+        ) : (
+          <MicIcon />
+        )}
       </IconButton>
     </Tooltip>
   );
