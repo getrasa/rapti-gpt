@@ -2,10 +2,11 @@
 
 **🍿 Live preview**: https://raptigpt.com
 
+> ⚠️ Notice: This web app requires you to provide your own API Key. Refer to `Usage` section.
+&nbsp;
 <img width="1728" alt="Screenshot 2023-07-03 at 5 34 29 pm" src="https://github.com/getrasa/rapti-gpt/assets/21182768/322e8630-6545-42d0-a390-6cd930c9045f">
 
-&nbsp;
-> ⚠️ Notice: This web app requires you to provide your own API Key. Refer to `Usage` section.
+
 
 
 ## Introducing `RaptiGPT`
