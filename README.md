@@ -1,6 +1,6 @@
 # RaptiGPT
 
-**🍿 Live preview**: https://raptigpt.com
+**🍿 Live preview**: https://www.raptigpt.com
 
 > ⚠️ Notice: This web app requires you to provide your own API Key. Refer to `Usage` section.
 &nbsp;
