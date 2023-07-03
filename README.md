@@ -32,6 +32,11 @@ To get started, simply visit our website at <https://raptigpt.com/>. There are 4
 2. Setup preferable profiles (4th icon in menu)
 3. (Optional) For Speech2Text enter into the API menu your Deepgram API Key obtained from [Deepgram API Keys](https://deepgram.com/). (1st menu icon)
 
+### Other Tips
+- To toggle models click the model name.
+- Scroll horizontally using a shift + scroll.
+- You can start a conversation from any point by editing any of your preview messages.
+
 ## Running Locally
 You can run this project like any other reactjs project.
 ```bash
