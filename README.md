@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# RaptiGPT
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**🍿 Live preview**: https://raptigpt.com
 
-## Available Scripts
+<img width="1728" alt="Screenshot 2023-07-03 at 5 34 29 pm" src="https://github.com/getrasa/rapti-gpt/assets/21182768/322e8630-6545-42d0-a390-6cd930c9045f">
 
-In the project directory, you can run:
+&nbsp;
+> ⚠️ Notice: This web app requires you to provide your own API Key. Refer to `Usage` section.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Introducing `RaptiGPT`
+RaptiGPT makes it easier to find and manage information by letting you branch out to different conversations. Maintain several chats simultaneously, switch between them without confusion, and rapidly compare them side by side. It eliminates the need to have multiple tabs or cards open, making your information hunt less linear and more efficient.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+# 🔥 Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+RaptiGPT comes with a bundle of amazing features! Here are some of them:
+- Ability to open multiple windows side by side with customizable width and count.
+- Seamless switch between GPT3.5 and GPT4 even after a conversation has begun.
+- Profiles: System messages predefined and selectable for individual windows.
+- An efficient File Importer: Automatically minifies imported code files to save space and provides simple file referencing with a single click.
+- Integrated Multilingual Speech-to-Text function via Deepgram's implementation of WhisperAI (Key required).
 
-### `npm run build`
+# 🛠️ Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To get started, simply visit our website at <https://raptigpt.com/>. There are 4 steps required to fully set up the chat.
+(fill out the information in the side menu)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Enter into the API menu your OpenAI API Key obtained from [OpenAI API Keys](https://platform.openai.com/account/api-keys). (first icon)
+2. Configure window count and size to your liking. (2nd & 3rd icon in menu)
+2. Setup preferable profiles (4th icon in menu)
+3. (Optional) For Speech2Text enter into the API menu your Deepgram API Key obtained from [Deepgram API Keys](https://deepgram.com/). (1st menu icon)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running Locally
+You can run this project like any other reactjs project.
+```bash
+    npm run start
+   ```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
