@@ -70,7 +70,7 @@ function App() {
   }, [JSON.stringify(profileList)]);
 
   const profileListWithEmpty = [
-    { title: "No Profile", content: "" },
+    { title: "Empty", content: "" },
     ...(profileList || []),
   ];
 
@@ -85,7 +85,7 @@ function App() {
         setWindowCount={setWindowCount}
         windowSize={windowSize}
         setWindowSize={setWindowSize}
-        profileList={profileListWithEmpty}
+        profileList={profileList || []}
         setProfileList={setProfileList}
       />
       <Box
