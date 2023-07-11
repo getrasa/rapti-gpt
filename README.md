@@ -24,7 +24,7 @@ RaptiGPT comes with a bundle of amazing features! Here are some of them:
 
 # 🛠️ Usage
 
-To get started, simply visit our website at <https://raptigpt.com/>. There are 4 steps required to fully set up the chat.
+To get started, simply visit our website at <https://www.raptigpt.com/>. There are 4 steps required to fully set up the chat.
 (fill out the information in the side menu)
 
 1. Enter into the API menu your OpenAI API Key obtained from [OpenAI API Keys](https://platform.openai.com/account/api-keys). (first icon)
