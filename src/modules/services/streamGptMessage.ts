@@ -5,6 +5,7 @@ export interface Message {
 }
 
 export enum GptEngine {
+  GPT4TurboPreviewVision = "gpt-4-vision-preview",
   GPT4TurboPreview = "gpt-4-1106-preview",
   GPT4 = "gpt-4",
   GPT35 = "gpt-3.5-turbo",
@@ -34,7 +35,7 @@ export const streamGptMessage = async (
       headers,
       body: JSON.stringify(data),
     });
-    
+
     const reader = response.body?.getReader();
     const decoder = new TextDecoder();
     if (reader) {
@@ -72,8 +73,7 @@ function extractJSON(str: string) {
       try {
         var res = JSON.parse(candidate);
         return [res, firstOpen, firstClose + 1];
-      } catch (e) {
-      }
+      } catch (e) {}
       firstClose = str.substr(0, firstClose).lastIndexOf("}");
     } while (firstClose > firstOpen);
     firstOpen = str.indexOf("{", firstOpen + 1);

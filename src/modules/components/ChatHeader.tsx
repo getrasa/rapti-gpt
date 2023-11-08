@@ -27,8 +27,12 @@ const GptChatHeader = styled(Box)({
 
 const ChatHeader: React.FC = ({}) => {
   const toggleModelChange = (model: GptEngine) => {
-    const newModel =
-      model === GptEngine.GPT35 ? GptEngine.GPT4TurboPreview : GptEngine.GPT35;
+    const gptEnginesList = Object.values(GptEngine);
+    const modelIndex = gptEnginesList.indexOf(model);
+    const nextModelIndex = (modelIndex + 1) % gptEnginesList.length;
+    const newModel = gptEnginesList[nextModelIndex];
+    // const newModel =
+    //   model === GptEngine.GPT35 ? GptEngine.GPT4TurboPreview : GptEngine.GPT35;
     setModel(newModel);
   };
 
