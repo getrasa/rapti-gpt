@@ -18,7 +18,7 @@ export const useChatState = (
   const [attachedFiles, setAttachedFiles] = useState<InlineFile[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [streamBuffer, setStreamBuffer] = useState<string>("");
-  const [model, setModel] = useState<GptEngine>(GptEngine.GPT35);
+  const [model, setModel] = useState<GptEngine>(GptEngine.GPT4TurboPreview);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [mainLanguage, setMainLanguage] = useState<SupportedLanguages>(
     SupportedLanguages.English

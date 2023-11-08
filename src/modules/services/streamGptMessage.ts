@@ -5,6 +5,7 @@ export interface Message {
 }
 
 export enum GptEngine {
+  GPT4TurboPreview = "gpt-4-1106-preview",
   GPT4 = "gpt-4",
   GPT35 = "gpt-3.5-turbo",
 }
